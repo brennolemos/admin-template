@@ -1,7 +1,9 @@
+import Layout from "../components/template/Layout";
+
 export default function Home() {
   return (
     <div>
-      <h1>Admin</h1>
+      <Layout title="Inicial page" subtitle="In construction" />
     </div>
   );
 }
