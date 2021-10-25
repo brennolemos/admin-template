@@ -1,3 +1,4 @@
+import route from "next/router";
 import { createContext, useState } from "react";
 import firebase from "../../firebase/config";
 import User from "../../model/User";
@@ -27,7 +28,17 @@ async function normalizedUser(firebaseUser: firebase.User): Promise<User> {
 export function AuthProvider(props) {
   const [user, setUser] = useState<User>(null);
 
-  async function loginGoogle() {}
+  async function loginGoogle() {
+    const resp = await firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider());
+
+    if (resp.user?.email) {
+      const user = await normalizedUser(resp.user);
+      setUser(user);
+      route.push("/");
+    }
+  }
 
   return (
     <AuthContext.Provider value={{ user, loginGoogle }}>
